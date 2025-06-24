@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Check Out{% endblock %}
+
+{% block content %}
+<h1 class="text-center my-4">Welcome to Dhamaka Sale</h1>
+{% endblock %}
+
+{% block body %}
+<!-- ======= Checkout Section ======= -->
+<section id="portfolio" class="portfolio">
+  <div class="container">
+
+    <!-- Display Django Messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="section-title">
+      <h2>Welcome to Shop</h2>
+      <h3>Checkout Page</h3>
+    </div>
+
+    <!-- Step 1: Cart Items -->
+    <div class="col my-4">
+      <h2>Step 1 - Review Your Cart Items</h2>
+      <ul class="list-group" id="items"></ul>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mt-3">
+          <li class="breadcrumb-item active" aria-current="page">
+            Your Cart Total Is <b>Rs. <span id="totalprice"></span></b>. Enter your details below & place your order.
+          </li>
+        </ol>
+      </nav>
+    </div>
+
+    <!-- Step 2: Address & Info -->
+    <div class="col my-4">
+      <h2>Step 2 - Enter Address & Other Details</h2>
+      <form method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+        <input type="hidden" name="itemsJson" id="itemsJson">
+        <input type="hidden" id="amt" name="amt">
+
+        <!-- Name & Email -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="name">Name</label>
+            <input type="text" class="form-control mt-1" id="name" name="name" placeholder="Name" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="email">Email</label>
+            <input type="email" class="form-control mt-1" id="email" name="email" value="{{ user.email }}" placeholder="Email" required>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="address1">Address</label>
+            <input type="text" class="form-control mt-1" id="address1" name="address1" placeholder="1234 Main St" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="address2">Address 2</label>
+            <input type="text" class="form-control mt-1" id="address2" name="address2" placeholder="Apartment or suite" required>
+          </div>
+        </div>
+
+        <!-- City, State, Zip -->
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="city">City</label>
+            <input type="text" class="form-control mt-1" id="city" name="city" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="state">State</label>
+            <input type="text" class="form-control mt-1" id="state" name="state" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="zip_code">Pin Code</label>
+            <input type="number" class="form-control mt-1" id="zip_code" name="zip_code" required>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="mb-3">
+          <label for="phone">Phone Number</label>
+          <input type="tel" class="form-control mt-1" id="phone" name="phone" required>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-success btn-block mt-3">Place Order</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- JavaScript Section -->
+<script>
+  let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+  console.log(cart);
+
+  let sum = 0;
+  let totalPrice = 0;
+  let mystr = "";
+
+  if (Object.keys(cart).length === 0) {
+    mystr = "<li class='list-group-item'>Your cart is empty, please add some items before checkout.</li>";
+  } else {
+    for (let item in cart) {
+      let [qty, name, price] = cart[item];
+      sum += qty;
+      totalPrice += qty * price;
+
+      mystr += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                  ${name}
+                  <div><b>Price: ₹${price}</b></div>
+                  <span class="badge bg-primary rounded-pill">${qty}</span>
+                </li>`;
+    }
+  }
+
+  document.getElementById("items").innerHTML = mystr;
+  document.getElementById("totalprice").innerText = totalPrice;
+  document.getElementById("amt").value = totalPrice;
+  document.getElementById("itemsJson").value = JSON.stringify(cart);
+</script>
+{% endblock %}
