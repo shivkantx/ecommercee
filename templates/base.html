@@ -1,166 +1,267 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{% block title %}{% endblock title %}</title>
+    <meta content="ecommerce website we deliver products in 1 hour" name="description" />
+    <meta content="ecommerce, amazon, flipkart, selling, products" name="keywords" />
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <title>
-{% block title %} {% endblock title %}
-  </title>
-  <meta content="ecommerce website we deliver products in 1 hours" name="description">
-  <meta content="ecommerce" name="amazon,flipkart,selling,products">
+    <!-- Vendor CSS -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <!-- Main CSS -->
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
 
-  <!-- Vendor CSS Files -->
-  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+  /* Universal font */
+  * {
+    font-family: "Poppins", sans-serif !important;
+  }
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  body {
+    background-color: #f8f9fa;
+    font-size: 16px;
+    color: #333;
+  }
 
-  <!-- Template Main CSS File -->
-  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  /* Global heading styling */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Poppins", sans-serif !important;
+    font-weight: 600;
+    color: #0a0f29;
+    letter-spacing: 0.5px;
+  }
 
-</head>
+  nav a,
+  .navbar a,
+  footer a,
+  footer h5,
+  footer h4,
+  footer h3,
+  footer h6,
+  footer li,
+  footer p,
+  .btn,
+  .dropdown-item {
+    font-family: "Poppins", sans-serif !important;
+  }
 
-<body>
+  .navbar ul li a:hover {
+    color: #0d6efd !important;
+    transition: 0.3s ease;
+  }
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top ">
-    <div class="container d-flex align-items-center justify-content-between">
+  footer a:hover {
+    text-decoration: underline;
+    color: #0dcaf0 !important;
+  }
 
-<a href="/" class="logo"><img src="{% static 'images/logo.png' %}" alt="" class="img-fluid"> Shop Cart</a>
+  footer {
+    padding-bottom: 20px;
+  }
 
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto active" href="/">Home</a></li>
-          <li><a class="nav-link scrollto" href="/about">About Us</a></li>
-          <li><a class="nav-link scrollto" href="/checkout">Checkout</a></li>
-          <li><a class="nav-link scrollto" href="/profile">My Profile<i class="fa-regular fa-square-user"></i> </a></li>
-          <button type="button" class="nav-link scrollto bg-danger p-3 m-2 text-white" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" ><i class="fa-solid fa-cart-shopping"></i>  Cart (<span id="cart">0</span>)
-          </button>
-          {% if request.user.is_authenticated %}
-          <li><a  class="nav-link scrollto" href="/auth/logout/">Logout <i class="fa-solid fa-right-from-bracket"></i>
-          </a></li>
-          {% else %}
-          <li class="dropdown"><a href="#"><span>SignIn <i class="fa-solid fa-user"></i></span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li><a href="/auth/signup/">Sign Up <i class="fa-solid fa-user"></i></a></li>
-              <li><a href="/auth/login/">Login</a></li>
-            </ul>
-          </li>
-          {% endif %}
-          <li><a class="nav-link scrollto bg-dark p-3 m-2" href="/contact">Contact <i class="fa-solid fa-message-middle"></i></a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+  /* Mobile Nav */
+  .navbar-mobile {
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    background-color: #0a0f29;
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 999;
+  }
 
-    </div>
-  </header><!-- End Header -->
+  .navbar-mobile ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-  <!-- ======= Hero Section ======= -->
-  <section id="hero">
-    <div class="hero-container">
+  .mobile-nav-toggle {
+    display: none;
+  }
 
-      {% block content %}
-      {% endblock content %}
-      
-    </div>
-  </section><!-- End Hero -->
+  @media (max-width: 991.98px) {
+    .navbar {
+      display: none;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background-color: #0a0f29;
+      padding: 1rem;
+      border-radius: 0 0 10px 10px;
+    }
 
-  <main id="main">
-    {% block body %}
-    {% endblock body %}
-  </main><!-- End #main -->
+    .navbar.active {
+      display: block;
+    }
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
+    .mobile-nav-toggle {
+      display: block;
+      cursor: pointer;
+    }
+  }
+</style>
 
-    <div class="footer-top">
+  </head>
+
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top" style="background-color: #0a0f29; z-index: 999">
+      <div class="container d-flex align-items-center justify-content-between">
+        <a href="/" class="logo d-flex align-items-center">
+          <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 32px" />
+          <span class="ms-2 fw-semibold fs-6 text-white">Shop Cart</span>
+        </a>
+
+        <!-- Mobile nav toggle -->
+        <i class="bi bi-list mobile-nav-toggle d-lg-none text-white fs-3"></i>
+
+        <!-- Navbar -->
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link scrollto text-white" href="/">Home</a></li>
+            <li><a class="nav-link scrollto text-white" href="/about">About</a></li>
+            <li><a class="nav-link scrollto text-white" href="/checkout">Checkout</a></li>
+            <li><a class="nav-link scrollto text-white" href="/profile">My Profile <i class="fa-regular fa-user ms-1"></i></a></li>
+
+            <li>
+              <button type="button" class="btn btn-sm btn-outline-light" id="popcart"
+                data-container="body" data-toggle="popover" data-placement="bottom" data-html="true">
+                <i class="fa-solid fa-cart-shopping me-1"></i>Cart (<span id="cart">0</span>)
+              </button>
+            </li>
+
+            {% if request.user.is_authenticated %}
+            <li>
+              <a class="btn btn-sm btn-danger text-white" href="/auth/logout/">
+                Logout <i class="fa-solid fa-right-from-bracket ms-1"></i>
+              </a>
+            </li>
+            {% else %}
+            <li class="dropdown">
+              <a href="#" class="btn btn-sm btn-outline-info text-white dropdown-toggle" data-bs-toggle="dropdown">
+                Sign In <i class="fa-solid fa-user ms-1"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/auth/signup/">Sign Up</a></li>
+                <li><a class="dropdown-item" href="/auth/login/">Login</a></li>
+              </ul>
+            </li>
+            {% endif %}
+
+            <li>
+              <a class="btn btn-sm btn-outline-light" href="/contact">
+                Contact <i class="fa-solid fa-message ms-1"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="mt-5 pt-4">
+      <div class="hero-container">
+        {% block content %}{% endblock content %}
+      </div>
+    </section>
+
+    <!-- Main -->
+    <main id="main">
+      {% block body %}{% endblock body %}
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="pt-5" style="background-color: #0a0f29; color: #f1f1f1">
       <div class="container">
-        <div class="row">
-
-          <div class="col-lg-3 col-md-6 footer-contact">
-            <p style="color:black; font-size: 1.5rem; font-weight: bold;">Designer Address</p>
-            <br>
-            Noida Sector-66 <br>
-            Noida, Mamura 201301<br>
-            India <br><br>
-            <strong>Phone:</strong> +91 63962 41409<br>
-            <strong>Email:</strong> shivkant639624@gmail.com<br>
+        <div class="row gy-4">
+          <div class="col-lg-3 col-md-6">
+            <h5 class="fw-semibold mb-3 text-info">Designer Address</h5>
+            <p>Noida Sector-66<br />Mamura, Noida 201301<br />India</p>
+            <p><strong>Phone:</strong> +91 63962 41409<br /><strong>Email:</strong> shivkant639624@gmail.com</p>
           </div>
-
-          <div class="col-lg-2 col-md-6 footer-links">
-            <p style="color:black; font-size: 1.25rem; font-weight: bold;">Useful Links</p>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="/">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="/about">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="/contact">Contact</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+          <div class="col-lg-2 col-md-6">
+            <h5 class="fw-semibold mb-3 text-info">Useful Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="/" class="text-light text-decoration-none">Home</a></li>
+              <li><a href="/about" class="text-light text-decoration-none">About</a></li>
+              <li><a href="/contact" class="text-light text-decoration-none">Contact</a></li>
+              <li><a href="#" class="text-light text-decoration-none">Terms</a></li>
             </ul>
           </div>
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <p style="color:black; font-size: 1.25rem; font-weight: bold;">Our Services</p>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Data analysis</a></li>
+          <div class="col-lg-3 col-md-6">
+            <h5 class="fw-semibold mb-3 text-info">Our Services</h5>
+            <ul class="list-unstyled">
+              <li>Web Design</li>
+              <li>Web Development</li>
+              <li>Product Management</li>
+              <li>Data Analysis</li>
             </ul>
           </div>
-
-          <div class="col-lg-4 col-md-6 footer-links">
-            <p style="color:black; font-size: 1.25rem; font-weight: bold;">Technologies Used</p>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> Django Framework</li>
-              <li><i class="bx bx-chevron-right"></i> HTML, CSS, JavaScript</li>
-              <li><i class="bx bx-chevron-right"></i> Bootstrap</li>
+          <div class="col-lg-4 col-md-6">
+            <h5 class="fw-semibold mb-3 text-info">Technologies Used</h5>
+            <ul class="list-unstyled">
+              <li>Django Framework</li>
+              <li>HTML, CSS, JavaScript</li>
+              <li>Bootstrap</li>
             </ul>
           </div>
+        </div>
 
+        <div class="d-flex justify-content-between align-items-center border-top border-light mt-4 pt-3 flex-column flex-md-row text-center text-md-start">
+          <div>
+            <p class="mb-1">This is a <strong class="text-primary">Django</strong> Project</p>
+            <p class="mb-0">
+              Designed by <a href="https://www.linkedin.com/in/shiv-kant-036a17289/" class="text-info text-decoration-none">Shiv Kant</a>
+            </p>
+          </div>
+          <div class="social-links mt-3 mt-md-0">
+            <a href="https://www.x.com/shivkantpal123" class="text-light me-2"><i class="bx bxl-twitter"></i></a>
+            <a href="https://www.facebook.com/shivkant.yadav.902604" class="text-light me-2"><i class="bx bxl-facebook"></i></a>
+            <a href="https://www.instagram.com/shivkant252" class="text-light me-2"><i class="bx bxl-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/shiv-kant-036a17289/" class="text-light"><i class="bx bxl-linkedin"></i></a>
+          </div>
         </div>
       </div>
-    </div>
+    </footer>
 
-    <div class="container d-md-flex py-4">
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-      <div class="me-md-auto text-center text-md-start">
-        <div class="copyright">
-          This is a <strong><span>Django </span></strong> Project 
-        </div>
-        <div class="credits">
-          Designed by <a href="https://www.linkedin.com/in/shiv-kant-036a17289/">Shiv Kant</a>
-        </div>
-      </div>
-      <div class="social-links text-center text-md-right pt-3 pt-md-0">
-        <a href="https://www.x.com/shivkantpal123" class="twitter"><i class="bx bxl-twitter"></i></a>
-        <a href="https://www.facebook.com/shivkant.yadav.902604" class="facebook"><i class="bx bxl-facebook"></i></a>
-        <a href="https://www.instagram.com/shivkant252" class="instagram"><i class="bx bxl-instagram"></i></a>
-        <a href="https://www.linkedin.com/in/shiv-kant-036a17289/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-      </div>
-    </div>
-  </footer><!-- End Footer -->
+    <!-- Vendor JS -->
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <!-- ✅ Toggle Fix Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const toggle = document.querySelector('.mobile-nav-toggle');
+        const navbar = document.querySelector('#navbar');
 
-  <!-- Vendor JS Files -->
-  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
-
-  <!-- Template Main JS File -->
-  <script src="{% static 'assets/js/main.js' %}"></script>
-
-</body>
-
+        if (toggle && navbar) {
+          toggle.addEventListener('click', function () {
+            navbar.classList.toggle('active');
+            toggle.classList.toggle('bi-list');
+            toggle.classList.toggle('bi-x');
+          });
+        }
+      });
+    </script>
+  </body>
 </html>
