@@ -25,96 +25,93 @@
 
     <!-- Custom CSS -->
     <style>
-  /* Universal font */
-  * {
-    font-family: "Poppins", sans-serif !important;
-  }
+      * {
+        font-family: "Poppins", sans-serif !important;
+      }
 
-  body {
-    background-color: #f8f9fa;
-    font-size: 16px;
-    color: #333;
-  }
+      body {
+        background-color: #f8f9fa;
+        font-size: 16px;
+        color: #333;
+      }
 
-  /* Global heading styling */
-  h1, h2, h3, h4, h5, h6 {
-    font-family: "Poppins", sans-serif !important;
-    font-weight: 600;
-    color: #0a0f29;
-    letter-spacing: 0.5px;
-  }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "Poppins", sans-serif !important;
+        font-weight: 600;
+        color: #0a0f29;
+        letter-spacing: 0.5px;
+      }
 
-  nav a,
-  .navbar a,
-  footer a,
-  footer h5,
-  footer h4,
-  footer h3,
-  footer h6,
-  footer li,
-  footer p,
-  .btn,
-  .dropdown-item {
-    font-family: "Poppins", sans-serif !important;
-  }
+      nav a,
+      .navbar a,
+      footer a,
+      footer h5,
+      footer h4,
+      footer h3,
+      footer h6,
+      footer li,
+      footer p,
+      .btn,
+      .dropdown-item {
+        font-family: "Poppins", sans-serif !important;
+      }
 
-  .navbar ul li a:hover {
-    color: #0d6efd !important;
-    transition: 0.3s ease;
-  }
+      .navbar ul li a:hover {
+        color: #0d6efd !important;
+        transition: 0.3s ease;
+      }
 
-  footer a:hover {
-    text-decoration: underline;
-    color: #0dcaf0 !important;
-  }
+      footer a:hover {
+        text-decoration: underline;
+        color: #0dcaf0 !important;
+      }
 
-  footer {
-    padding-bottom: 20px;
-  }
+      footer {
+        padding-bottom: 20px;
+      }
 
-  /* Mobile Nav */
-  .navbar-mobile {
-    position: absolute;
-    top: 60px;
-    right: 15px;
-    background-color: #0a0f29;
-    padding: 10px;
-    border-radius: 8px;
-    z-index: 999;
-  }
+      .mobile-nav-toggle {
+        display: none;
+      }
 
-  .navbar-mobile ul {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+      @media (max-width: 991.98px) {
+        .mobile-nav-toggle {
+          display: block;
+          cursor: pointer;
+        }
 
-  .mobile-nav-toggle {
-    display: none;
-  }
+        .navbar {
+          display: none;
+          position: absolute;
+          top: 60px;
+          left: 0;
+          width: 100%;
+          background-color: #0a0f29;
+          padding: 1rem 1px;
+          border-radius: 0 0 10px 10px;
+        }
 
-  @media (max-width: 991.98px) {
-    .navbar {
-      display: none;
-      position: absolute;
-      top: 60px;
-      left: 0;
-      width: 100%;
-      background-color: #0a0f29;
-      padding: 1rem;
-      border-radius: 0 0 10px 10px;
-    }
+        .navbar.active {
+          display: block;
+        }
 
-    .navbar.active {
-      display: block;
-    }
+        .navbar ul {
+          flex-direction: column !important;
+          gap: 1rem;
+        }
 
-    .mobile-nav-toggle {
-      display: block;
-      cursor: pointer;
-    }
-  }
-</style>
+        .navbar ul li {
+          width: 100%;
+        }
 
+        .navbar ul li a,
+        .navbar ul li .btn {
+          display: block;
+          width: 100%;
+          text-align: left;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -126,21 +123,18 @@
           <span class="ms-2 fw-semibold fs-6 text-white">Shop Cart</span>
         </a>
 
-        <!-- Mobile nav toggle -->
         <i class="bi bi-list mobile-nav-toggle d-lg-none text-white fs-3"></i>
 
-        <!-- Navbar -->
         <nav id="navbar" class="navbar">
-          <ul>
+          <ul class="d-flex flex-wrap gap-3 list-unstyled m-0 p-0">
             <li><a class="nav-link scrollto text-white" href="/">Home</a></li>
             <li><a class="nav-link scrollto text-white" href="/about">About</a></li>
             <li><a class="nav-link scrollto text-white" href="/checkout">Checkout</a></li>
             <li><a class="nav-link scrollto text-white" href="/profile">My Profile <i class="fa-regular fa-user ms-1"></i></a></li>
 
             <li>
-              <button type="button" class="btn btn-sm btn-outline-light" id="popcart"
-                data-container="body" data-toggle="popover" data-placement="bottom" data-html="true">
-                <i class="fa-solid fa-cart-shopping me-1"></i>Cart (<span id="cart">0</span>)
+              <button type="button" class="btn btn-sm btn-outline-light" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true">
+                <i class="fa-solid fa-cart-shopping me-1"></i>Cart (<span id="cart">{{ cart_count|default:"0" }}</span>)
               </button>
             </li>
 
@@ -184,71 +178,59 @@
       {% block body %}{% endblock body %}
     </main>
 
-    <!-- Footer -->
-    <footer id="footer" class="pt-5" style="background-color: #0a0f29; color: #f1f1f1">
-      <div class="container">
-        <div class="row gy-4">
-          <div class="col-lg-3 col-md-6">
-            <h5 class="fw-semibold mb-3 text-info">Designer Address</h5>
-            <p>Noida Sector-66<br />Mamura, Noida 201301<br />India</p>
-            <p><strong>Phone:</strong> +91 63962 41409<br /><strong>Email:</strong> shivkant639624@gmail.com</p>
-          </div>
-          <div class="col-lg-2 col-md-6">
-            <h5 class="fw-semibold mb-3 text-info">Useful Links</h5>
-            <ul class="list-unstyled">
-              <li><a href="/" class="text-light text-decoration-none">Home</a></li>
-              <li><a href="/about" class="text-light text-decoration-none">About</a></li>
-              <li><a href="/contact" class="text-light text-decoration-none">Contact</a></li>
-              <li><a href="#" class="text-light text-decoration-none">Terms</a></li>
-            </ul>
-          </div>
-          <div class="col-lg-3 col-md-6">
-            <h5 class="fw-semibold mb-3 text-info">Our Services</h5>
-            <ul class="list-unstyled">
-              <li>Web Design</li>
-              <li>Web Development</li>
-              <li>Product Management</li>
-              <li>Data Analysis</li>
-            </ul>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <h5 class="fw-semibold mb-3 text-info">Technologies Used</h5>
-            <ul class="list-unstyled">
-              <li>Django Framework</li>
-              <li>HTML, CSS, JavaScript</li>
-              <li>Bootstrap</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="d-flex justify-content-between align-items-center border-top border-light mt-4 pt-3 flex-column flex-md-row text-center text-md-start">
-          <div>
-            <p class="mb-1">This is a <strong class="text-primary">Django</strong> Project</p>
-            <p class="mb-0">
-              Designed by <a href="https://www.linkedin.com/in/shiv-kant-036a17289/" class="text-info text-decoration-none">Shiv Kant</a>
-            </p>
-          </div>
-          <div class="social-links mt-3 mt-md-0">
-            <a href="https://www.x.com/shivkantpal123" class="text-light me-2"><i class="bx bxl-twitter"></i></a>
-            <a href="https://www.facebook.com/shivkant.yadav.902604" class="text-light me-2"><i class="bx bxl-facebook"></i></a>
-            <a href="https://www.instagram.com/shivkant252" class="text-light me-2"><i class="bx bxl-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/shiv-kant-036a17289/" class="text-light"><i class="bx bxl-linkedin"></i></a>
-          </div>
-        </div>
+    <!-- ✅ Footer Restored -->
+<footer id="footer" class="pt-5" style="background-color: #0a0f29; color: #f1f1f1">
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-3 col-md-6">
+        <h5 class="fw-semibold mb-3 text-info">Designer Address</h5>
+        <p>Noida Sector-66<br />Mamura, Noida 201301<br />India</p>
+        <p><strong>Phone:</strong> +91 63962 41409<br /><strong>Email:</strong> shivkant639624@gmail.com</p>
       </div>
-    </footer>
+      <div class="col-lg-2 col-md-6">
+        <h5 class="fw-semibold mb-3 text-info">Useful Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="/" class="text-light text-decoration-none">Home</a></li>
+          <li><a href="/about" class="text-light text-decoration-none">About</a></li>
+          <li><a href="/contact" class="text-light text-decoration-none">Contact</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Terms</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <h5 class="fw-semibold mb-3 text-info">Our Services</h5>
+        <ul class="list-unstyled">
+          <li>Web Design</li>
+          <li>Web Development</li>
+          <li>Product Management</li>
+          <li>Data Analysis</li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <h5 class="fw-semibold mb-3 text-info">Technologies Used</h5>
+        <ul class="list-unstyled">
+          <li>Django Framework</li>
+          <li>HTML, CSS, JavaScript</li>
+          <li>Bootstrap</li>
+        </ul>
+      </div>
+    </div>
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <div class="d-flex justify-content-between align-items-center border-top border-light mt-4 pt-3 flex-column flex-md-row text-center text-md-start">
+      <div>
+        <p class="mb-1">This is a <strong class="text-primary">Django</strong> Project</p>
+        <p class="mb-0">Designed by <a href="https://www.linkedin.com/in/shiv-kant-036a17289/" class="text-info text-decoration-none">Shiv Kant</a></p>
+      </div>
+      <div class="social-links mt-3 mt-md-0">
+        <a href="https://www.x.com/shivkantpal123" class="text-light me-2"><i class="bx bxl-twitter"></i></a>
+        <a href="https://www.facebook.com/shivkant.yadav.902604" class="text-light me-2"><i class="bx bxl-facebook"></i></a>
+        <a href="https://www.instagram.com/shivkant252" class="text-light me-2"><i class="bx bxl-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/shiv-kant-036a17289/" class="text-light"><i class="bx bxl-linkedin"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
 
-    <!-- Vendor JS -->
-    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
-    <script src="{% static 'assets/js/main.js' %}"></script>
 
-    <!-- ✅ Toggle Fix Script -->
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const toggle = document.querySelector('.mobile-nav-toggle');
@@ -261,7 +243,30 @@
             toggle.classList.toggle('bi-x');
           });
         }
+
+        const clearBtn = document.getElementById('clear-cart-btn');
+        const cartSpan = document.getElementById('cart');
+        const cartButton = document.getElementById('popcart');
+
+        if (clearBtn && cartSpan && cartButton) {
+          clearBtn.addEventListener('click', function () {
+            fetch('/clear-cart/')
+              .then(res => res.json())
+              .then(data => {
+                if (data.success) {
+                  cartSpan.innerText = '0';
+
+                  const popover = bootstrap.Popover.getInstance(cartButton);
+                  if (popover) {
+                    popover.hide();
+                  }
+
+                  alert("Cart cleared successfully!");
+                }
+              });
+          });
+        }
       });
     </script>
   </body>
-</html>
+</html> 

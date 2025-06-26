@@ -1,59 +1,82 @@
 {% extends 'base.html' %}
-
 {% block title %}Profile Page{% endblock %}
 
 {% block body %}
-<section id="portfolio" class="portfolio">
-    <div class="container">
-        <h1>My Profile</h1>
+<section id="portfolio" class="portfolio py-5">
+  <div class="container px-1 px-lg-3">
 
-        <table class="table table-info table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Order ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Products</th>
-                    <th scope="col">Amount Paid</th>
-                    <th scope="col">Payment Status</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">Delivery Status</th>
-                    <th scope="col">Delivered</th>
-                    <th scope="col">Date</th>
-                </tr>
-            </thead>
-            <tbody>
+    <h1 class="my-4 text-center">My Orders</h1>
 
-                {% for i in items %}
-                <tr>
-                    <th scope="row">{{ i.oid }}</th>
+    <!-- Responsive Table Wrapper -->
+    <div class="table-responsive">
+      <table class="table table-info table-striped table-bordered text-center align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Order ID</th>
+            <th>Name</th>
+            <th>Products</th>
+            <th>Amount Paid</th>
+            <th>Payment Status</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Delivery Status</th>
+            <th>Delivered</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in items %}
+            {% with i.status_updates.all as updates %}
+              {% if updates %}
+                {% for j in updates %}
+                  <tr>
+                    <td>{{ i.oid }}</td>
                     <td>{{ i.name }}</td>
-                    <td>{{ i.items_json }}</td>
-                    <td>{{ i.amount }}</td>
+                    <td>
+                      {% for key, value in i.item_details.items %}
+                        {{ value.0 }} x {{ value.1 }} — ₹{{ value.2 }}<br />
+                      {% endfor %}
+                    </td>
+                    <td>{{ i.amountpaid }}</td>
                     <td>{{ i.paymentstatus }}</td>
-                    <td>{{ i.address1 }}</td>
+                    <td>
+                      {{ i.address1 }}, {{ i.address2 }}, {{ i.city }}, {{ i.state }}, {{ i.zip_code }}
+                    </td>
                     <td>{{ i.phone }}</td>
-
-                    {% if i.status_updates %}
-                        {% for j in i.status_updates %}
-                            <td>{{ j.update_desc }}</td>
-                            
-                            {% if j.delivered %}
-                                <td><i class="fa-solid fa-circle-check"></i> Delivered</td>
-                            {% else %}
-                                <td><i class="fa-solid fa-truck"></i> Not Delivered</td>
-                            {% endif %}
-
-                            <td>{{ j.timestamp }}</td>
-                        {% endfor %}
-                    {% else %}
-                        <td colspan="3">No updates available</td>
-                    {% endif %}
-                </tr>
+                    <td>{{ j.update_desc }}</td>
+                    <td>
+                      {% if j.delivered %}
+                        <span class="text-success"><i class="fa-solid fa-circle-check"></i> Delivered</span>
+                      {% else %}
+                        <span class="text-warning"><i class="fa-solid fa-truck"></i> Not Delivered</span>
+                      {% endif %}
+                    </td>
+                    <td>{{ j.timestamp }}</td>
+                  </tr>
                 {% endfor %}
-
-            </tbody>
-        </table>
+              {% else %}
+                <tr>
+                  <td>{{ i.oid }}</td>
+                  <td>{{ i.name }}</td>
+                  <td>
+                    {% for key, value in i.item_details.items %}
+                      {{ value.0 }} x {{ value.1 }} — ₹{{ value.2 }}<br />
+                    {% endfor %}
+                  </td>
+                  <td>{{ i.amountpaid }}</td>
+                  <td>{{ i.paymentstatus }}</td>
+                  <td>
+                    {{ i.address1 }}, {{ i.address2 }}, {{ i.city }}, {{ i.state }}, {{ i.zip_code }}
+                  </td>
+                  <td>{{ i.phone }}</td>
+                  <td colspan="3" class="text-muted">No status updates</td>
+                </tr>
+              {% endif %}
+            {% endwith %}
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
+  </div>
 </section>
 {% endblock %}

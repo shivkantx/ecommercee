@@ -53,7 +53,6 @@ def checkout(request):
         zip_code = request.POST.get('zip_code', '')
         phone = request.POST.get('phone', '')
 
-        # Step 1: Save order
         order = Orders(
             items_json=items_json,
             name=name,
@@ -68,15 +67,12 @@ def checkout(request):
         )
         order.save()
 
-        # Step 2: Set external readable order ID
         order.oid = f"{order.pk}ShopyCart"
         order.save()
 
-        # Step 3: Save update with oid
         update = OrderUpdate(order_id=order.oid, update_desc="The order has been placed")
         update.save()
 
-        # Step 4: Paytm integration
         param_dict = {
             'MID': keys.MID,
             'ORDER_ID': order.oid,
@@ -147,12 +143,48 @@ def profile(request):
 
     currentuser = request.user.username
     items = Orders.objects.filter(email=currentuser)
-    status = []
+
+    for order in items:
+        try:
+            order.item_details = json.loads(order.items_json)
+        except Exception as e:
+            order.item_details = {}
+
+        if order.oid:
+            order.status_updates = OrderUpdate.objects.filter(order_id=order.oid)
+        else:
+            order.status_updates = []
+
+    context = {"items": items}
+    return render(request, "profile.html", context)
+
+    if not request.user.is_authenticated:
+        messages.warning(request, "Login & Try Again")
+        return redirect('/auth/login')
+
+    currentuser = request.user.username
+    items = Orders.objects.filter(email=currentuser)
+
+    for order in items:
+        order.status_updates = OrderUpdate.objects.filter(order_id=order.oid)
+        try:
+            order.items_parsed = json.loads(order.items_json)
+        except json.JSONDecodeError:
+            order.items_parsed = {}
+
+    context = {"items": items}
+    return render(request, "profile.html", context)
+
+    if not request.user.is_authenticated:
+        messages.warning(request, "Login & Try Again")
+        return redirect('/auth/login')
+
+    currentuser = request.user.username
+    items = Orders.objects.filter(email=currentuser)
 
     for order in items:
         if order.oid:
-            updates = OrderUpdate.objects.filter(order_id=order.oid)
-            status.extend(updates)
+            order.status_updates = OrderUpdate.objects.filter(order_id=order.oid)
 
-    context = {"items": items, "status": status}
+    context = {"items": items}
     return render(request, "profile.html", context)
