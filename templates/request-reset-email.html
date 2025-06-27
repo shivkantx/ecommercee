@@ -1,41 +1,50 @@
 {% extends 'base.html' %} 
-{% block title %}reset password{% endblock title %} 
+{% block title %}Reset Password{% endblock title %} 
+
 {% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card bg-light shadow-lg border-0 rounded-4 p-4">
 
-<div class="card bg-light p-5">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
 
-  {% for message in messages %}
+        <div class="text-center mb-4">
+          <h3 class="fw-bold text-primary">Reset Your Password</h3>
+          <p class="text-muted small mb-0">We'll send you a reset link on your email</p>
+        </div>
 
-  <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
-    <strong>{{message}}</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-  {% endfor %}
+        <form action="/auth/request-reset-email/" method="post">
+          {% csrf_token %}
 
-  
-  <h3 class="text-dark">Request a reset Link</h3>
+          <div class="form-group mb-3">
+            <label for="email" class="form-label fw-semibold">Email address</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="fa-solid fa-envelope text-primary"></i></span>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+          </div>
 
-  <form action="/auth/request-reset-email/" method="post">
-    {% csrf_token %}
-    <br />
+          <div class="d-grid mb-3">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fa-solid fa-paper-plane me-1"></i>Send Reset Link
+            </button>
+          </div>
 
-    <label for="email">Email</label>
-    <div class="form-group">
-      <input
-        type="email"
-        class="form-control p-2"
-        id="email"
-        name="email"
-        required
-      />
+          <div class="text-center">
+            <a href="/" class="text-decoration-none text-dark">
+              <i class="fa-solid fa-arrow-left me-1"></i>Back to Home
+            </a>
+          </div>
+        </form>
+
+      </div>
     </div>
-   <br>
-    <button type="submit" class="btn btn-dark">Submit</button>
-
-    <br />
-   <a href="/">Go Back</a>
-    <br />
-  </form>
+  </div>
 </div>
-
 {% endblock content %}

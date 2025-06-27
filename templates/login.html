@@ -1,55 +1,50 @@
-{% extends 'base.html' %}  
-{% block title %}Login{% endblock title %} 
+{% extends 'base.html' %}
+{% block title %}Login{% endblock title %}
+
 {% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-lg border-0 p-4 bg-light rounded-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
 
-<div class="card bg-light p-5 mx-auto"  style="max-width: 400px; margin-top: 50px;">
+        <h3 class="text-center fw-bold text-dark mb-4">Login to Your Account</h3>
 
-  {% for message in messages %}
+        <form action="/auth/login/" method="post" novalidate>
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="email" class="form-label fw-semibold">Email Address</label>
+            <input type="email" class="form-control p-2" id="email" name="email" placeholder="Enter your email" required>
+          </div>
 
-  <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
-    <strong>{{message}}</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <div class="mb-3">
+            <label for="pass1" class="form-label fw-semibold">Password</label>
+            <input type="password" class="form-control p-2" id="pass1" name="pass1" placeholder="Enter your password" required>
+          </div>
+
+          <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">Login</button>
+          </div>
+
+          <div class="mt-3 text-center">
+            <small>
+              Forgot your password?
+              <a href="/auth/request-reset-email/" class="text-decoration-none text-primary fw-semibold">Reset here</a>
+            </small>
+            <br>
+            <small>
+              New user?
+              <a href="/auth/signup/" class="text-decoration-none text-primary fw-semibold">Create an account</a>
+            </small>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  {% endfor %}
-
-  
-  <p class="text-dark" style="font-weight: 700; font-size: 28px;">Login</p>
-
-
-  <form action="/auth/login/" method="post">
-    {% csrf_token %}
-    
-
-    <label for="email">Email</label>
-    <div class="form-group">
-      <input
-        type="email"
-        class="form-control p-2"
-        id="email"
-        name="email"
-        required
-      />
-    </div>
-    <label for="pass1">Password</label>
-    <div class="form-group">
-      <input
-        type="password"
-        class="form-control p-2"
-        id="pass1"
-        name="pass1"
-        required
-      />
-    </div>
-   
-    <br />
-    <button type="submit" class="btn btn-dark">Login</button>
-    <br>
-    <span> Forget Password? <a href="/auth/request-reset-email/">Reset</a></span>
-    <br>
-    <br />
-    New User? <a href="/auth/signup/">Signup</a>
-    <br />
-  </form>
 </div>
-
 {% endblock content %}

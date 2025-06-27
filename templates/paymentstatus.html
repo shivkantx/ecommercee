@@ -1,50 +1,49 @@
 {% extends 'base.html' %}
-{% block title %}payment status{% endblock title %}
+{% block title %}Payment Status{% endblock title %}
+
 {% block body %}
-<h1 class="text-center">Payment Status</h1>
+<section class="py-5">
+  <div class="container">
 
-<div class="container mt-2">
-    {% for message in messages %}
-
-    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
-      <strong>{{message}}</strong>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endfor %}
-<div class="row">
-
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-
-         
-<div class="alert alert-success" role="alert">
-    PAYMENT STATUS
-    </div>
-    <div class="container mt-3">
-    
-        
-        <div class="col my-4">
-    
-            <h2>Payment status regarding your order Id {{response.ORDERID}}</h2>
-            {% if response.RESPCODE == '01' %}
-            ORDER SUCCESS
-            <br>
-
-            {% else %}
-            <h2>ORDER FAILURE</h2>
-            {% endif%}
-    
+    <!-- Django Messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    
+      {% endfor %}
+    {% endif %}
+
+    <!-- Payment Status Section -->
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8 col-sm-10">
+
+        <div class="card shadow-sm border-0">
+          <div class="card-body text-center">
+
+            <div class="alert alert-info mb-4 fw-semibold text-uppercase">
+              Payment Status
+            </div>
+
+            <h4 class="mb-3">Order ID: <span class="text-primary">{{ response.ORDERID }}</span></h4>
+
+            {% if response.RESPCODE == '01' %}
+              <div class="alert alert-success mt-3">
+                <h5 class="mb-0"><i class="fa-solid fa-circle-check me-2"></i>Order Successful</h5>
+              </div>
+            {% else %}
+              <div class="alert alert-danger mt-3">
+                <h5 class="mb-0"><i class="fa-solid fa-triangle-exclamation me-2"></i>Order Failed</h5>
+                <small class="d-block mt-2">Reason: {{ response.RESPMSG }}</small>
+              </div>
+            {% endif %}
+
+          </div>
+        </div>
+
+      </div>
     </div>
-
-
-    </div>
-    <div class="col-md-4"></div>
-</div>
-
-
-
-
-</div>
+  </div>
+</section>
 {% endblock body %}

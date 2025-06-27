@@ -1,1 +1,19 @@
-<h1>Something went wrong</h1>
+{% extends "base.html" %}
+{% block title %}Activation Failed{% endblock %}
+
+{% block body %}
+<section class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+  <div class="container text-center">
+    <div class="card shadow-lg p-4 border-0">
+      <div class="card-body">
+        <div class="mb-4">
+          <i class="fa-solid fa-circle-exclamation fa-4x text-danger"></i>
+        </div>
+        <h2 class="text-danger mb-3">Activation Failed</h2>
+        <p class="mb-4 fs-5">The link is either invalid or has expired. Please request a new activation email or contact support for help.</p>
+        <a href="{% url 'resend-activation' %}" class="btn btn-primary px-4 py-2">Resend Activation Link</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

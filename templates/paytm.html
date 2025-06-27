@@ -1,24 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Paytm merchant payment page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting to Paytm...</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f7fc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      color: #333;
+    }
+
+    .container {
+      padding: 2rem;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .spinner {
+      margin: 1.5rem auto;
+      width: 40px;
+      height: 40px;
+      border: 5px solid rgba(0, 0, 0, 0.1);
+      border-left-color: #0a58ca;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
+
 <body>
-<h1>Redirecting you to the merchant....</h1>
-<h1>Please do not refresh your page....</h1>
-<h1>Please do not refresh your page....</h1>
-<h1>Please do not refresh your page....</h1>
+  <div class="container">
+    <h1>Redirecting you to Paytm...</h1>
+    <h1>Please do not refresh your page</h1>
+    <div class="spinner"></div>
 
+    <form action="https://securegw-stage.paytm.in/theia/processTransaction" method="post" name="paytm">
+      {% for key, value in param_dict.items %}
+      <input type="hidden" name="{{ key }}" value="{{ value }}">
+      {% endfor %}
+    </form>
+  </div>
 
-<form action="https://securegw-stage.paytm.in/theia/processTransaction" method="post" name="paytm">
-    {% for key, value in param_dict.items %}
-    <input type="hidden" name="{{key}}" value="{{value}}">
-    {% endfor %}
-
-</form>
+  <script>
+    document.paytm.submit();
+  </script>
 </body>
-<script>
-document.paytm.submit()
-</script>
 </html>

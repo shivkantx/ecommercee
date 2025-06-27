@@ -188,3 +188,4 @@ def profile(request):
 
     context = {"items": items}
     return render(request, "profile.html", context)
+
