@@ -15,16 +15,13 @@
     />
 
     <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <!-- Vendor CSS -->
     <link
       href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}"
       rel="stylesheet"
     />
+    
     <link
       href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}"
       rel="stylesheet"
@@ -412,59 +409,60 @@
     </footer>
 
     <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const toggle = document.querySelector(".mobile-nav-toggle");
-    const navbar = document.querySelector("#navbar");
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.querySelector(".mobile-nav-toggle");
+        const navbar = document.querySelector("#navbar");
 
-    if (toggle && navbar) {
-      toggle.addEventListener("click", function () {
-        navbar.classList.toggle("active");
-        toggle.classList.toggle("bi-list");
-        toggle.classList.toggle("bi-x");
-      });
-    }
-
-    const clearBtn = document.getElementById("clear-cart-btn");
-    const cartSpan = document.getElementById("cart");
-    const cartButton = document.getElementById("popcart");
-
-    // Initialize popover explicitly (required for hide() to work)
-    if (cartButton) {
-      new bootstrap.Popover(cartButton, {
-        trigger: 'manual',
-        html: true,
-        content: document.getElementById('popover-content')?.innerHTML || 'Cart content'
-      });
-    }
-
-    if (clearBtn && cartSpan && cartButton) {
-      clearBtn.addEventListener("click", function () {
-        fetch("/clear-cart/")
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              cartSpan.innerText = "0";
-
-              // Hide the popover using Bootstrap's API
-              const popover = bootstrap.Popover.getInstance(cartButton);
-              if (popover) {
-                popover.hide();
-              }
-
-              alert("Cart cleared successfully!");
-            } else {
-              alert("Failed to clear cart.");
-            }
-          })
-          .catch((error) => {
-            console.error("Error clearing cart:", error);
-            alert("Something went wrong.");
+        if (toggle && navbar) {
+          toggle.addEventListener("click", function () {
+            navbar.classList.toggle("active");
+            toggle.classList.toggle("bi-list");
+            toggle.classList.toggle("bi-x");
           });
+        }
+
+        const clearBtn = document.getElementById("clear-cart-btn");
+        const cartSpan = document.getElementById("cart");
+        const cartButton = document.getElementById("popcart");
+
+        // Initialize popover explicitly (required for hide() to work)
+        if (cartButton) {
+          new bootstrap.Popover(cartButton, {
+            trigger: "manual",
+            html: true,
+            content:
+              document.getElementById("popover-content")?.innerHTML ||
+              "Cart content",
+          });
+        }
+
+        if (clearBtn && cartSpan && cartButton) {
+          clearBtn.addEventListener("click", function () {
+            fetch("/clear-cart/")
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.success) {
+                  cartSpan.innerText = "0";
+
+                  // Hide the popover using Bootstrap's API
+                  const popover = bootstrap.Popover.getInstance(cartButton);
+                  if (popover) {
+                    popover.hide();
+                  }
+
+                  alert("Cart cleared successfully!");
+                } else {
+                  alert("Failed to clear cart.");
+                }
+              })
+              .catch((error) => {
+                console.error("Error clearing cart:", error);
+                alert("Something went wrong.");
+              });
+          });
+        }
       });
-    }
-  });
-</script>
-
-
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-Qz6k9cE+U/yDPGFSr5PgaWRW0Y7mpgXvNHyAVqHZKjGSnK3IHp5xEn0QsAAELOvy" crossorigin="anonymous"></script>
   </body>
 </html>
